@@ -46,11 +46,13 @@ void Enemy::draw(sf::RenderWindow & window, int tileSize)
 	else if (nextTurnDir.y == 1) arrowSprite.setRotation(180);
 	else if (nextTurnDir.y == -1) arrowSprite.setRotation(0);
 
+	arrowSprite.move(sf::Vector2f(nextTurnDir.x * 10, nextTurnDir.y * 10));
+
 	if (facingDir.x != 0) lineSprite.setRotation(90);
 	else lineSprite.setRotation(0);
 
-	for (int i = 0; i < 3; i++) {
-		lineSprite.move(sf::Vector2f(facingDir.x * tileSize, facingDir.y*tileSize));
+	for (int i = 0; i < 5; i++) {
+		lineSprite.move(sf::Vector2f(facingDir.x * (tileSize-20), facingDir.y*(tileSize-20)));
 		window.draw(lineSprite);
 	}
 
