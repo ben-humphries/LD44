@@ -12,6 +12,9 @@ public:
 	//coord x and y
 	int x, y;
 
+	//Player *
+	//Enemy *
+
 	void draw(sf::RenderWindow & window);
 };
 

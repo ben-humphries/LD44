@@ -1,7 +1,7 @@
 #include "Level.h"
 
 
-Level::Level(int width, int height, sf::Texture & tileTexture)
+Level::Level(int width, int height, sf::Texture & tileTexture, sf::Texture & playerTexture)
 {
 	this->width = width;
 	this->height = height;
@@ -11,6 +11,8 @@ Level::Level(int width, int height, sf::Texture & tileTexture)
 			tiles.push_back(Tile(x, y, tileTexture));
 		}
 	}
+
+	player = new Player(playerTexture);
 }
 
 Level::~Level()
@@ -24,4 +26,6 @@ void Level::draw(sf::RenderWindow & window)
 			tiles.at(x + y * width).draw(window);
 		}
 	}
+
+	player->draw(window, width);
 }

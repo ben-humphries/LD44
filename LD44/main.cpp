@@ -10,7 +10,12 @@ int main()
 	if (!tileTex.loadFromFile("res/tile.png")) {
 		printf("Error loading tile texture.");
 	}
-	Level l1 = Level(3, 4, tileTex);
+	sf::Texture playerTex;
+	if (!playerTex.loadFromFile("res/test.png")) {
+		printf("Error loading player texture.");
+	}
+
+	Level l1 = Level(3, 4, tileTex, playerTex);
 
 	while (window.isOpen())
 	{
