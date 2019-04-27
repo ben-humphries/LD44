@@ -140,6 +140,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="util.cpp" />
+    <ClCompile Include="util.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy.h" />

@@ -6,11 +6,14 @@
 #include "Player.h"
 #include "Enemy.h"
 
+#include "util.h"
+
 class Level
 {
 public:
 	Level(int width, int height, sf::Texture & tileTexture, sf::Texture & playerTexture, sf::Texture & enemyTexture, sf::Texture & arrowTexture, sf::Texture & lineTexture);
 	~Level();
+
 
 	int width, height;
 
@@ -24,6 +27,7 @@ public:
 
 	void update();
 
-	void movePlayer(int x, int y);
+	void movePlayer(int x, int y, sf::RenderWindow & window);
+
 };
 

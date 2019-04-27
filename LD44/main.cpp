@@ -2,6 +2,8 @@
 
 #include "Level.h"
 
+void sleep(sf::RenderWindow & window, float seconds);
+
 int main()
 {
 	srand(time(NULL));
@@ -47,19 +49,23 @@ int main()
 			{
 				if (event.key.code == sf::Keyboard::W || event.key.code == sf::Keyboard::Up)
 				{
-					l1.movePlayer(0, -1);
+					l1.movePlayer(0, -1, window);
 				}
 				else if (event.key.code == sf::Keyboard::A || event.key.code == sf::Keyboard::Left)
 				{
-					l1.movePlayer(-1, 0);
+					l1.movePlayer(-1, 0, window);
 				}
 				else if (event.key.code == sf::Keyboard::S || event.key.code == sf::Keyboard::Down)
 				{
-					l1.movePlayer(0, 1);
+					l1.movePlayer(0, 1, window);
 				}
 				else if (event.key.code == sf::Keyboard::D || event.key.code == sf::Keyboard::Right)
 				{
-					l1.movePlayer(1, 0);
+					l1.movePlayer(1, 0, window);
+				}
+				else if (event.key.code == sf::Keyboard::Space)
+				{
+					l1.movePlayer(0, 0, window);
 				}
 			}
 		}
