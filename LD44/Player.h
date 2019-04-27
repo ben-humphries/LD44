@@ -12,6 +12,8 @@ public:
 
 	int x = 0, y = 0;
 
+	sf::Vector2f facingDir;
+
 	void draw(sf::RenderWindow & window, int tileSize);
 };
 
