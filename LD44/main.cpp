@@ -4,6 +4,8 @@
 
 int main()
 {
+	srand(time(NULL));
+
 	sf::RenderWindow window(sf::VideoMode(800, 800), "LD44");
 	window.setKeyRepeatEnabled(false);
 
@@ -14,14 +16,22 @@ int main()
 
 	sf::Texture tileTex;
 	if (!tileTex.loadFromFile("res/tile.png")) {
-		printf("Error loading tile texture.");
+		printf("Error loading tile texture.\n");
 	}
 	sf::Texture playerTex;
 	if (!playerTex.loadFromFile("res/player.png")) {
-		printf("Error loading player texture.");
+		printf("Error loading player texture.\n");
+	}
+	sf::Texture enemyTex;
+	if (!enemyTex.loadFromFile("res/enemy.png")) {
+		printf("Error loading enemy texture.\n");
+	}
+	sf::Texture arrowTex;
+	if (!arrowTex.loadFromFile("res/arrow.png")) {
+		printf("Error loading arrow texture.\n");
 	}
 
-	Level l1 = Level(8, 8, tileTex, playerTex);
+	Level l1 = Level(8, 8, tileTex, playerTex, enemyTex, arrowTex);
 
 	while (window.isOpen())
 	{

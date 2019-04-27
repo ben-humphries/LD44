@@ -1,7 +1,7 @@
 #include "Level.h"
 
 
-Level::Level(int width, int height, sf::Texture & tileTexture, sf::Texture & playerTexture)
+Level::Level(int width, int height, sf::Texture & tileTexture, sf::Texture & playerTexture, sf::Texture & enemyTexture, sf::Texture & arrowTexture)
 {
 	this->width = width;
 	this->height = height;
@@ -15,6 +15,9 @@ Level::Level(int width, int height, sf::Texture & tileTexture, sf::Texture & pla
 	player = new Player(playerTexture);
 
 	tileWidth = tileTexture.getSize().x;
+
+	Enemy * enemy = new Enemy(enemyTexture, arrowTexture);
+	enemies.push_back(enemy);
 }
 
 Level::~Level()
@@ -30,6 +33,11 @@ void Level::draw(sf::RenderWindow & window)
 	}
 
 	player->draw(window, tileWidth);
+
+	for (auto enemy : enemies)
+	{
+		enemy->draw(window, tileWidth);
+	}
 }
 
 void Level::movePlayer(int x, int y)
@@ -49,6 +57,16 @@ void Level::movePlayer(int x, int y)
 	player->facingDir.x = x;
 	player->facingDir.y = y;
 
-	printf("%f   %f\n", player->facingDir.x, player->facingDir.y);
-	printf("%d   %d\n", player->x, player->y);
+	//printf("%f   %f\n", player->facingDir.x, player->facingDir.y);
+	//printf("%d   %d\n", player->x, player->y);
+
+	update();
+}
+
+void Level::update()
+{
+	for (auto enemy : enemies)
+	{
+		enemy->move(width);
+	}
 }
