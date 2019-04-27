@@ -9,7 +9,7 @@
 class Level
 {
 public:
-	Level(int width, int height, sf::Texture & tileTexture, sf::Texture & playerTexture, sf::Texture & enemyTexture, sf::Texture & arrowTexture);
+	Level(int width, int height, sf::Texture & tileTexture, sf::Texture & playerTexture, sf::Texture & enemyTexture, sf::Texture & arrowTexture, sf::Texture & lineTexture);
 	~Level();
 
 	int width, height;

@@ -5,11 +5,12 @@
 class Enemy
 {
 public:
-	Enemy(sf::Texture & texture, sf::Texture & arrowTexture);
+	Enemy(sf::Texture & texture, sf::Texture & arrowTexture, sf::Texture & lineTexture);
 	~Enemy();
 
 	sf::Sprite sprite;
 	sf::Sprite arrowSprite;
+	sf::Sprite lineSprite;
 
 	int x = 0, y = 0;
 

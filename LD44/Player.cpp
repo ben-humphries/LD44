@@ -5,6 +5,7 @@
 Player::Player(sf::Texture & texture)
 {
 	sprite.setTexture(texture);
+	x = 7; y = 7;
 }
 
 

@@ -30,8 +30,11 @@ int main()
 	if (!arrowTex.loadFromFile("res/arrow.png")) {
 		printf("Error loading arrow texture.\n");
 	}
-
-	Level l1 = Level(8, 8, tileTex, playerTex, enemyTex, arrowTex);
+	sf::Texture lineTex;
+	if (!lineTex.loadFromFile("res/dotted_line.png")) {
+		printf("Error loading line texture.\n");
+	}
+	Level l1 = Level(8, 8, tileTex, playerTex, enemyTex, arrowTex, lineTex);
 
 	while (window.isOpen())
 	{

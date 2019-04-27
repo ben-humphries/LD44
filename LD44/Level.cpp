@@ -1,7 +1,7 @@
 #include "Level.h"
 
 
-Level::Level(int width, int height, sf::Texture & tileTexture, sf::Texture & playerTexture, sf::Texture & enemyTexture, sf::Texture & arrowTexture)
+Level::Level(int width, int height, sf::Texture & tileTexture, sf::Texture & playerTexture, sf::Texture & enemyTexture, sf::Texture & arrowTexture, sf::Texture & lineTexture)
 {
 	this->width = width;
 	this->height = height;
@@ -16,7 +16,7 @@ Level::Level(int width, int height, sf::Texture & tileTexture, sf::Texture & pla
 
 	tileWidth = tileTexture.getSize().x;
 
-	Enemy * enemy = new Enemy(enemyTexture, arrowTexture);
+	Enemy * enemy = new Enemy(enemyTexture, arrowTexture, lineTexture);
 	enemies.push_back(enemy);
 }
 
