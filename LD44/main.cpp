@@ -1,10 +1,16 @@
 #include <SFML/Graphics.hpp>
 
+#include "Level.h"
+
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-	sf::CircleShape shape(100.f);
-	shape.setFillColor(sf::Color::Green);
+	sf::RenderWindow window(sf::VideoMode(800, 800), "LD44");
+
+	sf::Texture tileTex;
+	if (!tileTex.loadFromFile("res/tile.png")) {
+		printf("Error loading tile texture.");
+	}
+	Level l1 = Level(3, 4, tileTex);
 
 	while (window.isOpen())
 	{
@@ -16,7 +22,7 @@ int main()
 		}
 
 		window.clear();
-		window.draw(shape);
+		l1.draw(window);
 		window.display();
 	}
 
