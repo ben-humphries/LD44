@@ -27,6 +27,10 @@ Level::Level(int width, int height, sf::Texture & tileTexture, sf::Texture & pla
 	score.setFont(font);
 	score.setString("$$$$$: 0");
 	score.setPosition(0, -50);
+
+	text.setFont(font);
+	text.setPosition(-50, 50 * 8);
+	text.setCharacterSize(27);
 }
 
 Level::~Level()
@@ -49,11 +53,20 @@ void Level::draw(sf::RenderWindow & window)
 	player->draw(window, tileWidth);
 
 	window.draw(score);
+	window.draw(text);
 }
 
 void Level::movePlayer(int x, int y, sf::RenderWindow & window, bool faceOnly)
 {
+	for (auto enemy : enemies)
+	{
+		int tx = x + player->x;
+		int ty = y + player->y;
 
+		if (tx == enemy->x && ty == enemy->y) {
+			faceOnly = true;
+		}
+	}
 	if (!faceOnly) {
 		player->x += x;
 		player->y += y;
@@ -89,12 +102,18 @@ void Level::nextTurn(sf::RenderWindow & window)
 
 void Level::update()
 {
+	checkLOS();
 
 	for (auto enemy : enemies)
 	{
-		enemy->move(width);
+		enemy->move(width, player->x, player->y);
 	}
 
+	checkLOS();
+}
+
+void Level::checkLOS()
+{
 	//check if player is in LOS of enemies
 	for (auto enemy : enemies)
 	{
@@ -106,10 +125,9 @@ void Level::update()
 			printf("%d: %d   %d ||  %d    %d\n", i, tx, ty, player->x, player->y);
 
 			if (tx == player->x && ty == player->y)
-				printf("COLLIDED\n");
+				text.setString("Jeepers! Is that a living ATM? Run!");
 		}
 	}
-
 }
 
 void Level::flipPlayer()

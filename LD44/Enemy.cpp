@@ -76,8 +76,10 @@ void Enemy::draw(sf::RenderWindow & window, int tileSize)
 
 }
 
-void Enemy::move(int levelSize)
+void Enemy::move(int levelSize, int playerX, int playerY)
 {
+
+	
 	if (!alive) return;
 
 	int random = rand() % 4;
@@ -90,6 +92,13 @@ void Enemy::move(int levelSize)
 	else if (random == 1) nextTurnDir.x = -1;
 	else if (random == 2) nextTurnDir.y = 1;
 	else if (random == 3) nextTurnDir.y = -1;
+
+
+	int tx = facingDir.x + x;
+	int ty = facingDir.y + y;
+
+	if (tx == playerX && ty == playerY)
+		return;
 
 	x += facingDir.x;
 	y += facingDir.y;

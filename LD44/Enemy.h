@@ -24,6 +24,6 @@ public:
 
 	void draw(sf::RenderWindow & window, int tileSize);
 
-	void move(int levelSize);
+	void move(int levelSize, int playerX, int playerY);
 };
 

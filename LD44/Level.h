@@ -18,6 +18,7 @@ public:
 
 	sf::Font font;
 	sf::Text score;
+	sf::Text text;
 
 	int scoreNum = 0;
 
@@ -38,5 +39,7 @@ public:
 	void movePlayer(int x, int y, sf::RenderWindow & window, bool faceOnly = false);
 	void flipPlayer();
 
+private:
+	void checkLOS();
 };
 
