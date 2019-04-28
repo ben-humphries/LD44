@@ -2,7 +2,6 @@
 
 #include "Level.h"
 
-void sleep(sf::RenderWindow & window, float seconds);
 
 int main()
 {
@@ -24,6 +23,10 @@ int main()
 	if (!playerTex.loadFromFile("res/player.png")) {
 		printf("Error loading player texture.\n");
 	}
+	sf::Texture flippedTex;
+	if (!flippedTex.loadFromFile("res/player-fallen.png")) {
+		printf("Error loading flipped texture.\n");
+	}
 	sf::Texture enemyTex;
 	if (!enemyTex.loadFromFile("res/enemy.png")) {
 		printf("Error loading enemy texture.\n");
@@ -36,7 +39,11 @@ int main()
 	if (!lineTex.loadFromFile("res/dotted_line.png")) {
 		printf("Error loading line texture.\n");
 	}
-	Level l1 = Level(8, 8, tileTex, playerTex, enemyTex, arrowTex, lineTex);
+	sf::Texture bloodTex;
+	if (!bloodTex.loadFromFile("res/blood.png")) {
+		printf("Error loading bloox texture.\n");
+	}
+	Level l1 = Level(8, 8, tileTex, playerTex, flippedTex, enemyTex, arrowTex, lineTex, bloodTex);
 
 	while (window.isOpen())
 	{
@@ -47,25 +54,45 @@ int main()
 				window.close();
 			else if (event.type == sf::Event::KeyPressed)
 			{
-				if (event.key.code == sf::Keyboard::W || event.key.code == sf::Keyboard::Up)
+				if (event.key.code == sf::Keyboard::W)
 				{
 					l1.movePlayer(0, -1, window);
 				}
-				else if (event.key.code == sf::Keyboard::A || event.key.code == sf::Keyboard::Left)
+				else if (event.key.code == sf::Keyboard::A)
 				{
 					l1.movePlayer(-1, 0, window);
 				}
-				else if (event.key.code == sf::Keyboard::S || event.key.code == sf::Keyboard::Down)
+				else if (event.key.code == sf::Keyboard::S)
 				{
 					l1.movePlayer(0, 1, window);
 				}
-				else if (event.key.code == sf::Keyboard::D || event.key.code == sf::Keyboard::Right)
+				else if (event.key.code == sf::Keyboard::D)
 				{
 					l1.movePlayer(1, 0, window);
 				}
-				else if (event.key.code == sf::Keyboard::Space)
+				else if (event.key.code == sf::Keyboard::Up)
 				{
-					l1.movePlayer(0, 0, window);
+					l1.movePlayer(0, -1, window, true);
+				}
+				else if (event.key.code == sf::Keyboard::Left)
+				{
+					l1.movePlayer(-1, 0, window, true);
+				}
+				else if (event.key.code == sf::Keyboard::Down)
+				{
+					l1.movePlayer(0, 1, window, true);
+				}
+				else if (event.key.code == sf::Keyboard::Right)
+				{
+					l1.movePlayer(1, 0, window, true);
+				}
+
+				else if (event.key.code == sf::Keyboard::Enter)
+				{
+					l1.nextTurn(window);
+				}
+				else if (event.key.code == sf::Keyboard::Space) {
+					l1.flipPlayer();
 				}
 			}
 		}

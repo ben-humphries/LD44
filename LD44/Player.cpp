@@ -2,9 +2,11 @@
 
 
 
-Player::Player(sf::Texture & texture)
+Player::Player(sf::Texture & texture, sf::Texture & flippedTexture)
 {
 	sprite.setTexture(texture);
+	flippedSprite.setTexture(flippedTexture);
+
 	x = 7; y = 7;
 }
 
@@ -16,14 +18,18 @@ Player::~Player()
 
 void Player::draw(sf::RenderWindow & window, int tileSize)
 {
-	sprite.setOrigin(tileSize / 2, tileSize / 2);
+	sf::Sprite tSprite = flipped ? flippedSprite : sprite;
 
-	sprite.setPosition(x*tileSize + tileSize / 2, y*tileSize + tileSize / 2);
+	tSprite.setOrigin(tileSize / 2, tileSize / 2);
+
+	tSprite.setPosition(x*tileSize + tileSize / 2, y*tileSize + tileSize / 2);
+
+	if (flipped) tSprite.move(sf::Vector2f(facingDir.x * tileSize, facingDir.y * tileSize));
 	
-	if (facingDir.x == 1) sprite.setRotation(180);
-	else if (facingDir.x == -1) sprite.setRotation(0);
-	else if (facingDir.y == 1) sprite.setRotation(270);
-	else if (facingDir.y == -1) sprite.setRotation(90);
+	if (facingDir.x == 1) tSprite.setRotation(180);
+	else if (facingDir.x == -1) tSprite.setRotation(0);
+	else if (facingDir.y == 1) tSprite.setRotation(270);
+	else if (facingDir.y == -1) tSprite.setRotation(90);
 
-	window.draw(sprite);
+	window.draw(tSprite);
 }

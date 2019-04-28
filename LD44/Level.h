@@ -11,7 +11,9 @@
 class Level
 {
 public:
-	Level(int width, int height, sf::Texture & tileTexture, sf::Texture & playerTexture, sf::Texture & enemyTexture, sf::Texture & arrowTexture, sf::Texture & lineTexture);
+	Level(int width, int height, sf::Texture & tileTexture, sf::Texture & playerTexture,
+		sf::Texture & flippedTexture, sf::Texture & enemyTexture, sf::Texture & arrowTexture,
+		sf::Texture & lineTexture, sf::Texture & bloodTexture);
 	~Level();
 
 
@@ -25,9 +27,12 @@ public:
 
 	void draw(sf::RenderWindow & window);
 
+	void nextTurn(sf::RenderWindow & window);
+
 	void update();
 
-	void movePlayer(int x, int y, sf::RenderWindow & window);
+	void movePlayer(int x, int y, sf::RenderWindow & window, bool faceOnly = false);
+	void flipPlayer();
 
 };
 

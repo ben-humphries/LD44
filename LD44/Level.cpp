@@ -1,6 +1,8 @@
 #include "Level.h"
 
-Level::Level(int width, int height, sf::Texture & tileTexture, sf::Texture & playerTexture, sf::Texture & enemyTexture, sf::Texture & arrowTexture, sf::Texture & lineTexture)
+Level::Level(int width, int height, sf::Texture & tileTexture, sf::Texture & playerTexture,
+	sf::Texture & flippedTexture, sf::Texture & enemyTexture, sf::Texture & arrowTexture,
+	sf::Texture & lineTexture, sf::Texture & bloodTexture)
 {
 	this->width = width;
 	this->height = height;
@@ -12,11 +14,11 @@ Level::Level(int width, int height, sf::Texture & tileTexture, sf::Texture & pla
 		}
 	}
 
-	player = new Player(playerTexture);
+	player = new Player(playerTexture, flippedTexture);
 
 	tileWidth = tileTexture.getSize().x;
 
-	Enemy * enemy = new Enemy(enemyTexture, arrowTexture, lineTexture);
+	Enemy * enemy = new Enemy(enemyTexture, arrowTexture, lineTexture, bloodTexture);
 	enemies.push_back(enemy);
 }
 
@@ -32,24 +34,27 @@ void Level::draw(sf::RenderWindow & window)
 		}
 	}
 
-	player->draw(window, tileWidth);
-
 	for (auto enemy : enemies)
 	{
 		enemy->draw(window, tileWidth);
 	}
+
+	player->draw(window, tileWidth);
 }
 
-void Level::movePlayer(int x, int y, sf::RenderWindow & window)
+void Level::movePlayer(int x, int y, sf::RenderWindow & window, bool faceOnly)
 {
-	player->x += x;
-	player->y += y;
 
-	if (player->x > width - 1) player->x = width - 1;
-	if (player->y > height - 1) player->y = height - 1;
+	if (!faceOnly) {
+		player->x += x;
+		player->y += y;
 
-	if (player->x < 0) player->x = 0;
-	if (player->y < 0) player->y = 0;
+		if (player->x > width - 1) player->x = width - 1;
+		if (player->y > height - 1) player->y = height - 1;
+
+		if (player->x < 0) player->x = 0;
+		if (player->y < 0) player->y = 0;
+	}
 
 	player->facingDir.x = 0;
 	player->facingDir.y = 0;
@@ -60,6 +65,11 @@ void Level::movePlayer(int x, int y, sf::RenderWindow & window)
 	//printf("%f   %f\n", player->facingDir.x, player->facingDir.y);
 	//printf("%d   %d\n", player->x, player->y);
 
+	nextTurn(window);
+}
+
+void Level::nextTurn(sf::RenderWindow & window)
+{
 	window.clear(sf::Color(40, 127, 50));
 	draw(window);
 	window.display();
@@ -87,6 +97,23 @@ void Level::update()
 
 			if (tx == player->x && ty == player->y)
 				printf("COLLIDED\n");
+		}
+	}
+}
+
+void Level::flipPlayer()
+{
+	player->flipped = !player->flipped;
+
+	for (auto enemy : enemies)
+	{
+		int tx = player->x + player->facingDir.x;
+		int ty = player->y + player->facingDir.y;
+
+		if (tx == enemy->x && ty == enemy->y) {
+			printf("SMASH THAT BITCH\n");
+			enemy->alive = false;
+			enemy->deathDirection = player->facingDir;
 		}
 	}
 }
