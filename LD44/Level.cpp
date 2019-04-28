@@ -97,22 +97,22 @@ void Level::nextTurn(sf::RenderWindow & window)
 	window.draw(score);
 	window.display();
 	sleep123(window, 0.3);
-	update();
+	update(window);
 }
 
-void Level::update()
+void Level::update(sf::RenderWindow & window)
 {
-	checkLOS();
+	checkLOS(window);
 
 	for (auto enemy : enemies)
 	{
 		enemy->move(width, player->x, player->y);
 	}
 
-	checkLOS();
+	checkLOS(window);
 }
 
-void Level::checkLOS()
+void Level::checkLOS(sf::RenderWindow & window)
 {
 	//check if player is in LOS of enemies
 	for (auto enemy : enemies)
@@ -124,8 +124,11 @@ void Level::checkLOS()
 			int ty = enemy->y + dir.y*(i + 1);
 			printf("%d: %d   %d ||  %d    %d\n", i, tx, ty, player->x, player->y);
 
-			if (tx == player->x && ty == player->y)
+			if (tx == player->x && ty == player->y) {
 				text.setString("Jeepers! Is that a living ATM? Run!");
+				nextTurn(window);
+				sleepwithskip(window, 10);
+			}
 		}
 	}
 }

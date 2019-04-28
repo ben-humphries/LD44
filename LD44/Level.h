@@ -34,12 +34,12 @@ public:
 
 	void nextTurn(sf::RenderWindow & window);
 
-	void update();
+	void update(sf::RenderWindow & window);
 
 	void movePlayer(int x, int y, sf::RenderWindow & window, bool faceOnly = false);
 	void flipPlayer();
 
 private:
-	void checkLOS();
+	void checkLOS(sf::RenderWindow & window);
 };
 
