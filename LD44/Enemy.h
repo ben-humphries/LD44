@@ -5,7 +5,7 @@
 class Enemy
 {
 public:
-	Enemy(sf::Texture & texture, sf::Texture & arrowTexture, sf::Texture & lineTexture, sf::Texture & bloodTexture);
+	Enemy(sf::Texture & texture, sf::Texture & arrowTexture, sf::Texture & lineTexture, sf::Texture & bloodTexture, bool moneyHolder);
 	~Enemy();
 
 	sf::Sprite sprite;
@@ -19,6 +19,7 @@ public:
 	sf::Vector2f nextTurnDir;
 
 	bool alive = true;
+	bool moneyHolder = false;
 
 	sf::Vector2f deathDirection;
 

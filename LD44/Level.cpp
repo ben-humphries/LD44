@@ -2,7 +2,7 @@
 
 Level::Level(int width, int height, sf::Texture & tileTexture, sf::Texture & playerTexture,
 	sf::Texture & flippedTexture, sf::Texture & enemyTexture, sf::Texture & arrowTexture,
-	sf::Texture & lineTexture, sf::Texture & bloodTexture)
+	sf::Texture & lineTexture, sf::Texture & bloodTexture, sf::Texture & moneyHolderTexture)
 {
 	this->width = width;
 	this->height = height;
@@ -19,9 +19,12 @@ Level::Level(int width, int height, sf::Texture & tileTexture, sf::Texture & pla
 	tileWidth = tileTexture.getSize().x;
 
 	for (int i = 0; i < 2; i++) {
-		Enemy * enemy = new Enemy(enemyTexture, arrowTexture, lineTexture, bloodTexture);
+		Enemy * enemy = new Enemy(enemyTexture, arrowTexture, lineTexture, bloodTexture, false);
 		enemies.push_back(enemy);
 	}
+
+	Enemy * enemy = new Enemy(moneyHolderTexture, arrowTexture, lineTexture, bloodTexture, true);
+	enemies.push_back(enemy);
 
 
 	if (!font.loadFromFile("res/SFPixelate.ttf")) {
@@ -66,7 +69,7 @@ void Level::movePlayer(int x, int y, sf::RenderWindow & window, bool faceOnly)
 		int tx = x + player->x;
 		int ty = y + player->y;
 
-		if (tx == enemy->x && ty == enemy->y) {
+		if (tx == enemy->x && ty == enemy->y && enemy->alive) {
 			faceOnly = true;
 		}
 	}
@@ -156,6 +159,8 @@ void Level::flipPlayer(sf::RenderWindow & window)
 			enemy->alive = false;
 			enemy->deathDirection = player->facingDir;
 			scoreNum += 50;
+			if (enemy->moneyHolder)
+				scoreNum += 150;
 		}
 	}
 
@@ -171,6 +176,8 @@ void Level::flipPlayer(sf::RenderWindow & window)
 void Level::reset()
 {
 	scoreNum = 0;
+	std::string tstring = "$$$$$: " + std::to_string(scoreNum);
+	score.setString(tstring);
 	text.setString("");
 
 	player->alive = true;

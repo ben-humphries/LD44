@@ -13,7 +13,7 @@ class Level
 public:
 	Level(int width, int height, sf::Texture & tileTexture, sf::Texture & playerTexture,
 		sf::Texture & flippedTexture, sf::Texture & enemyTexture, sf::Texture & arrowTexture,
-		sf::Texture & lineTexture, sf::Texture & bloodTexture);
+		sf::Texture & lineTexture, sf::Texture & bloodTexture, sf::Texture &moneyHolderTexture);
 	~Level();
 
 	sf::Font font;

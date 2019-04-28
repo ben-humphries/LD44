@@ -41,9 +41,14 @@ int main()
 	}
 	sf::Texture bloodTex;
 	if (!bloodTex.loadFromFile("res/blood.png")) {
-		printf("Error loading bloox texture.\n");
+		printf("Error loading blood texture.\n");
 	}
-	Level l1 = Level(8, 8, tileTex, playerTex, flippedTex, enemyTex, arrowTex, lineTex, bloodTex);
+	sf::Texture moneyHolderTex;
+	if (!moneyHolderTex.loadFromFile("res/enemy_money.png")) {
+		printf("Error loading money texture.\n");
+	}
+
+	Level l1 = Level(8, 8, tileTex, playerTex, flippedTex, enemyTex, arrowTex, lineTex, bloodTex, moneyHolderTex);
 
 	while (window.isOpen())
 	{

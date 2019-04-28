@@ -2,7 +2,7 @@
 
 
 
-Enemy::Enemy(sf::Texture & texture, sf::Texture & arrowTexture, sf::Texture & lineTexture, sf::Texture & bloodTexture)
+Enemy::Enemy(sf::Texture & texture, sf::Texture & arrowTexture, sf::Texture & lineTexture, sf::Texture & bloodTexture, bool moneyHolder)
 {
 	sprite.setTexture(texture);
 	arrowSprite.setTexture(arrowTexture);
@@ -20,6 +20,8 @@ Enemy::Enemy(sf::Texture & texture, sf::Texture & arrowTexture, sf::Texture & li
 	else if (random == 3) nextTurnDir.y = -1;
 
 	facingDir = sf::Vector2f(0, -1);
+
+	this->moneyHolder = moneyHolder;
 }
 
 
