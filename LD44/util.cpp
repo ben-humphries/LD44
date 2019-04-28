@@ -19,5 +19,4 @@ void sleep123(sf::RenderWindow & window, float seconds) {
 				window.close();
 		}
 	}
-
 }

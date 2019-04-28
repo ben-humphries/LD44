@@ -16,6 +16,10 @@ public:
 		sf::Texture & lineTexture, sf::Texture & bloodTexture);
 	~Level();
 
+	sf::Font font;
+	sf::Text score;
+
+	int scoreNum = 0;
 
 	int width, height;
 

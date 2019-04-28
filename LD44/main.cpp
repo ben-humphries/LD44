@@ -97,6 +97,7 @@ int main()
 			}
 		}
 
+
 		window.clear(sf::Color(40, 127, 50));
 		l1.draw(window);
 		window.display();

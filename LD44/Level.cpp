@@ -20,6 +20,13 @@ Level::Level(int width, int height, sf::Texture & tileTexture, sf::Texture & pla
 
 	Enemy * enemy = new Enemy(enemyTexture, arrowTexture, lineTexture, bloodTexture);
 	enemies.push_back(enemy);
+
+	if (!font.loadFromFile("res/SFPixelate.ttf")) {
+		printf("Couldn't load font\n");
+	}
+	score.setFont(font);
+	score.setString("$$$$$: 0");
+	score.setPosition(0, -50);
 }
 
 Level::~Level()
@@ -40,6 +47,8 @@ void Level::draw(sf::RenderWindow & window)
 	}
 
 	player->draw(window, tileWidth);
+
+	window.draw(score);
 }
 
 void Level::movePlayer(int x, int y, sf::RenderWindow & window, bool faceOnly)
@@ -72,6 +81,7 @@ void Level::nextTurn(sf::RenderWindow & window)
 {
 	window.clear(sf::Color(40, 127, 50));
 	draw(window);
+	window.draw(score);
 	window.display();
 	sleep123(window, 0.3);
 	update();
@@ -99,6 +109,7 @@ void Level::update()
 				printf("COLLIDED\n");
 		}
 	}
+
 }
 
 void Level::flipPlayer()
@@ -110,10 +121,14 @@ void Level::flipPlayer()
 		int tx = player->x + player->facingDir.x;
 		int ty = player->y + player->facingDir.y;
 
-		if (tx == enemy->x && ty == enemy->y) {
+		if (tx == enemy->x && ty == enemy->y && enemy->alive) {
 			printf("SMASH THAT BITCH\n");
 			enemy->alive = false;
 			enemy->deathDirection = player->facingDir;
+			scoreNum += 50;
 		}
 	}
+
+	std::string tstring = "$$$$$: " + std::to_string(scoreNum);
+	score.setString(tstring);
 }
