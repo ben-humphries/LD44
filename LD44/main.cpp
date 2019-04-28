@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-
+#include <SFML/Audio.hpp>
 #include "Level.h"
 
 
@@ -14,6 +14,7 @@ int main()
 	view.zoom(0.5);
 	view.setCenter(4*50, 4*50);
 	window.setView(view);
+
 
 	sf::Texture tileTex;
 	if (!tileTex.loadFromFile("res/tile.png")) {

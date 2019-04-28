@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 #include "Tile.h"
 #include "Player.h"
@@ -44,6 +45,12 @@ public:
 	int enemyNumber = 1;
 
 	sf::Texture & enemyTexture, &arrowTexture, &lineTexture, &bloodTexture, &moneyHolderTexture;
+
+	sf::SoundBuffer splatBuffer;
+	sf::Sound splatSound;
+
+	sf::SoundBuffer thumpBuffer;
+	sf::Sound thumpSound;
 
 private:
 	void checkLOS(sf::RenderWindow & window);

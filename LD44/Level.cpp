@@ -34,7 +34,15 @@ Level::Level(int width, int height, sf::Texture & tileTexture, sf::Texture & pla
 	}
 
 
+	if (!splatBuffer.loadFromFile("res/splat.wav")) {
+		printf("Error loading sound\n");
+	}
+	if (!thumpBuffer.loadFromFile("res/thump.wav")) {
+		printf("Error loading sound\n");
+	}
 
+	splatSound.setBuffer(splatBuffer);
+	thumpSound.setBuffer(thumpBuffer);
 
 	if (!font.loadFromFile("res/SFPixelate.ttf")) {
 		printf("Couldn't load font\n");
@@ -181,11 +189,15 @@ void Level::flipPlayer(sf::RenderWindow & window)
 
 		if (tx == enemy->x && ty == enemy->y && enemy->alive) {
 			printf("SMASH THAT BITCH\n");
+			splatSound.play();
 			enemy->alive = false;
 			enemy->deathDirection = player->facingDir;
 			scoreNum += 50;
 			if (enemy->moneyHolder)
 				scoreNum += 150;
+		}
+		else {
+			thumpSound.play();
 		}
 	}
 
