@@ -14,6 +14,7 @@ public:
 	int x = 0, y = 0;
 
 	bool flipped = false;
+	bool alive = true;
 
 	sf::Vector2f facingDir;
 

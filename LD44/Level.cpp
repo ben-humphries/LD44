@@ -18,8 +18,11 @@ Level::Level(int width, int height, sf::Texture & tileTexture, sf::Texture & pla
 
 	tileWidth = tileTexture.getSize().x;
 
-	Enemy * enemy = new Enemy(enemyTexture, arrowTexture, lineTexture, bloodTexture);
-	enemies.push_back(enemy);
+	for (int i = 0; i < 2; i++) {
+		Enemy * enemy = new Enemy(enemyTexture, arrowTexture, lineTexture, bloodTexture);
+		enemies.push_back(enemy);
+	}
+
 
 	if (!font.loadFromFile("res/SFPixelate.ttf")) {
 		printf("Couldn't load font\n");
@@ -124,16 +127,22 @@ void Level::checkLOS(sf::RenderWindow & window)
 			int ty = enemy->y + dir.y*(i + 1);
 			printf("%d: %d   %d ||  %d    %d\n", i, tx, ty, player->x, player->y);
 
-			if (tx == player->x && ty == player->y) {
+			bool caught = (tx == player->x && ty == player->y) ||
+				(player->flipped && tx == player->x + player->facingDir.x && ty == player->y + player->facingDir.y && player->alive);
+			caught = caught && player->alive;
+
+			if (caught) {
 				text.setString("Jeepers! Is that a living ATM? Run!");
+				player->alive = false;
 				nextTurn(window);
 				sleepwithskip(window, 10);
+				reset();
 			}
 		}
 	}
 }
 
-void Level::flipPlayer()
+void Level::flipPlayer(sf::RenderWindow & window)
 {
 	player->flipped = !player->flipped;
 
@@ -152,4 +161,29 @@ void Level::flipPlayer()
 
 	std::string tstring = "$$$$$: " + std::to_string(scoreNum);
 	score.setString(tstring);
+
+	nextTurn(window);
+	checkLOS(window);
+	sleep123(window, 0.2);
+	player->flipped = false;
+}
+
+void Level::reset()
+{
+	scoreNum = 0;
+	text.setString("");
+
+	player->alive = true;
+	player->facingDir = sf::Vector2f(-1, 0);
+	player->flipped = false;
+	player->x = 7;
+	player->y = 7;
+
+	for (auto enemy : enemies)
+	{
+		enemy->alive = true;
+		enemy->facingDir = sf::Vector2f(0, 1);
+		enemy->x = 0;
+		enemy->y = 0;
+	}
 }

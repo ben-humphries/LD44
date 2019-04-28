@@ -37,7 +37,9 @@ public:
 	void update(sf::RenderWindow & window);
 
 	void movePlayer(int x, int y, sf::RenderWindow & window, bool faceOnly = false);
-	void flipPlayer();
+	void flipPlayer(sf::RenderWindow & window);
+
+	void reset();
 
 private:
 	void checkLOS(sf::RenderWindow & window);

@@ -92,7 +92,7 @@ int main()
 					l1.nextTurn(window);
 				}
 				else if (event.key.code == sf::Keyboard::Space) {
-					l1.flipPlayer();
+					l1.flipPlayer(window);
 				}
 			}
 		}
