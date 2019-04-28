@@ -2,7 +2,8 @@
 
 Level::Level(int width, int height, sf::Texture & tileTexture, sf::Texture & playerTexture,
 	sf::Texture & flippedTexture, sf::Texture & enemyTexture, sf::Texture & arrowTexture,
-	sf::Texture & lineTexture, sf::Texture & bloodTexture, sf::Texture & moneyHolderTexture)
+	sf::Texture & lineTexture, sf::Texture & bloodTexture, sf::Texture & moneyHolderTexture) : enemyTexture(enemyTexture), arrowTexture(arrowTexture),
+	lineTexture(lineTexture), bloodTexture(bloodTexture), moneyHolderTexture(moneyHolderTexture)
 {
 	this->width = width;
 	this->height = height;
@@ -18,13 +19,21 @@ Level::Level(int width, int height, sf::Texture & tileTexture, sf::Texture & pla
 
 	tileWidth = tileTexture.getSize().x;
 
-	for (int i = 0; i < 2; i++) {
-		Enemy * enemy = new Enemy(enemyTexture, arrowTexture, lineTexture, bloodTexture, false);
+	for (int i = 0; i < enemyNumber; i++) {
+		Enemy * enemy;
+		if (rand() >= 0.7) {
+			enemy = new Enemy(moneyHolderTexture, arrowTexture, lineTexture, bloodTexture, true);
+		}
+		else {
+			enemy = new Enemy(enemyTexture, arrowTexture, lineTexture, bloodTexture, false);
+		}
+
+		enemy->x = rand() % 7;
+		enemy->y = rand() % 7;
 		enemies.push_back(enemy);
 	}
 
-	Enemy * enemy = new Enemy(moneyHolderTexture, arrowTexture, lineTexture, bloodTexture, true);
-	enemies.push_back(enemy);
+
 
 
 	if (!font.loadFromFile("res/SFPixelate.ttf")) {
@@ -53,9 +62,14 @@ void Level::draw(sf::RenderWindow & window)
 
 	for (auto enemy : enemies)
 	{
-		enemy->draw(window, tileWidth);
+		if(!enemy->alive)
+			enemy->draw(window, tileWidth);
 	}
-
+	for (auto enemy : enemies)
+	{
+		if (enemy->alive)
+			enemy->draw(window, tileWidth);
+	}
 	player->draw(window, tileWidth);
 
 	window.draw(score);
@@ -110,12 +124,22 @@ void Level::update(sf::RenderWindow & window)
 {
 	checkLOS(window);
 
+	bool anyAlive = false;
 	for (auto enemy : enemies)
 	{
 		enemy->move(width, player->x, player->y);
+		if (enemy->alive)
+			anyAlive = true;
+	}
+
+	if (!anyAlive) {
+		enemyNumber++;
+		reset(scoreNum);
 	}
 
 	checkLOS(window);
+
+
 }
 
 void Level::checkLOS(sf::RenderWindow & window)
@@ -123,6 +147,7 @@ void Level::checkLOS(sf::RenderWindow & window)
 	//check if player is in LOS of enemies
 	for (auto enemy : enemies)
 	{
+		if (!enemy->alive) continue;
 		sf::Vector2f dir = enemy->facingDir;
 		for (int i = 0; i < 3; i++)
 		{
@@ -139,7 +164,7 @@ void Level::checkLOS(sf::RenderWindow & window)
 				player->alive = false;
 				nextTurn(window);
 				sleepwithskip(window, 10);
-				reset();
+				reset(0);
 			}
 		}
 	}
@@ -173,9 +198,13 @@ void Level::flipPlayer(sf::RenderWindow & window)
 	player->flipped = false;
 }
 
-void Level::reset()
+void Level::reset(int num)
 {
-	scoreNum = 0;
+	if (num == 0) {
+		enemyNumber = 1;
+		enemies.clear();
+	}
+	scoreNum = num;
 	std::string tstring = "$$$$$: " + std::to_string(scoreNum);
 	score.setString(tstring);
 	text.setString("");
@@ -186,11 +215,17 @@ void Level::reset()
 	player->x = 7;
 	player->y = 7;
 
-	for (auto enemy : enemies)
-	{
-		enemy->alive = true;
-		enemy->facingDir = sf::Vector2f(0, 1);
-		enemy->x = 0;
-		enemy->y = 0;
+	for (int i = 0; i < enemyNumber; i++) {
+		Enemy * enemy;
+		if (rand() / double(RAND_MAX) >= 0.7) {
+			enemy = new Enemy(moneyHolderTexture, arrowTexture, lineTexture, bloodTexture, true);
+		}
+		else {
+			enemy = new Enemy(enemyTexture, arrowTexture, lineTexture, bloodTexture, false);
+		}
+
+		enemy->x = rand() % 7;
+		enemy->y = rand() % 7;
+		enemies.push_back(enemy);
 	}
 }

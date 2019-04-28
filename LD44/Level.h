@@ -39,7 +39,11 @@ public:
 	void movePlayer(int x, int y, sf::RenderWindow & window, bool faceOnly = false);
 	void flipPlayer(sf::RenderWindow & window);
 
-	void reset();
+	void reset(int num);
+
+	int enemyNumber = 1;
+
+	sf::Texture & enemyTexture, &arrowTexture, &lineTexture, &bloodTexture, &moneyHolderTexture;
 
 private:
 	void checkLOS(sf::RenderWindow & window);
